@@ -92,7 +92,7 @@ exports.login = (req, res) => {
             // checks for invalid username
             res.send({message: "Invalid Username"})
         }else if(!user.validPassword(password)) {
-            // checks for valid password 
+            // checks for invalid password 
             return res.status(401).send({
               message: "Invalid Password"})
         }else{

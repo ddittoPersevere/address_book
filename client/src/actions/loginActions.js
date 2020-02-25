@@ -33,9 +33,14 @@ export const login = (username, password) => {
                 dispatch(setContacts());
             }else{
                 // if unsuccessful, error is passed to '_login' action
-                const error = 'Username / Password combination incorrect. Please try again.'
+                const error = result.data.message
                 dispatch(_login(false, undefined, error));
             }
+        }).catch((error) => {
+            // catches error given from API call and 
+            // sends it to '_login' action
+            let err = error.response.data.message
+            dispatch(_login(false, undefined, err));
         });
     };
 };
