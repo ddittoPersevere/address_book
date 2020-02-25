@@ -4,7 +4,7 @@ const env = {
     database: 'contacts_db',
     host:'localhost',
     user:'root',
-    password:'sscssc',
+    password:'',
     dialect: 'mysql',
     pool: {
         max: 5,
