@@ -22,20 +22,14 @@ export const login = (username, password) => {
         }).then(result => {
             // if token is returned, token and username  
             // is stored in localStorage
-            if(result.data.token){
-                const token = result.data.token
-                localStorage.setItem('jwt', token)
-                const username = result.data.user.username
-                localStorage.setItem('username', username)
-                // passes boolean token-existence and username to '_login' action
-                // and dispatches action for setting contacts in Redux store
-                dispatch(_login(!!token, username, undefined));
-                dispatch(setContacts());
-            }else{
-                // if unsuccessful, error is passed to '_login' action
-                const error = result.data.message
-                dispatch(_login(false, undefined, error));
-            }
+            const token = result.data.token
+            localStorage.setItem('jwt', token)
+            const username = result.data.user.username
+            localStorage.setItem('username', username)
+            // passes boolean token-existence and username to '_login' action
+            // and dispatches action for setting contacts in Redux store
+            dispatch(_login(!!token, username, undefined));
+            dispatch(setContacts());   
         }).catch((error) => {
             // catches error given from API call and 
             // sends it to '_login' action
@@ -62,7 +56,7 @@ export const logout = () => {
         // action for removing log-in info from Redux store
         localStorage.removeItem('jwt')
         localStorage.removeItem('username')
-        dispatch(_logout(false, "", ""));
+        dispatch(_logout(false, undefined, undefined));
     }
 };
 
@@ -77,20 +71,19 @@ export const signup = (email, username, password) => {
         }).then(result => {
             // if token is returned, token and username  
             // is stored in localStorage
-            if(result.data.token){
-                const token = result.data.token
-                localStorage.setItem('jwt', token)
-                const username = result.data.user.username
-                localStorage.setItem('username', username)
-                // passes boolean token-existence and username to '_login' action
-                // and dispatches action for setting contacts in Redux store
-                dispatch(_login(!!token, username, undefined));
-                dispatch(setContacts());
-            }else{
-                // if unsuccessful, error is passed to '_login' action
-                const error = 'Username already in use.'
-                dispatch(_login(false, undefined, error));
-            }
-        });
+            const token = result.data.token
+            localStorage.setItem('jwt', token)
+            const username = result.data.user.username
+            localStorage.setItem('username', username)
+            // passes boolean token-existence and username to '_login' action
+            // and dispatches action for setting contacts in Redux store
+            dispatch(_login(!!token, username, undefined));
+            dispatch(setContacts());
+        }).catch((error) => {
+            // catches error given from API call and 
+            // sends it to '_login' action
+            let err = error.response.data.error[0]
+            dispatch(_login(false, undefined, err));
+        });;
     };
 };

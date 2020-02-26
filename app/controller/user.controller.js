@@ -11,12 +11,17 @@ exports.create = (req, res) => {
         email: req.body.email,
         password: req.body.password
     }).then(user => {
-        // Token created using 'sign' method of jwt.
-        // 'testing' used a salt
-        const token = jwt.sign({ user }, 'testing')
-        res.send({user, token})
+        if(!user){
+            // checks for invalid username / email
+            res.status(401).send({message: "Username / Email already in use"})
+        }else{
+            // Token created using 'sign' method of jwt.
+            // 'testing' used a salt
+            const token = jwt.sign({ user }, 'testing')
+            res.send({user, token})
+        }    
     }).catch(err => {
-        res.status(500).send(`Error -> ${err}`)
+        res.status(401).send({message: "Username / Email already in use"})
     })
 }
 
@@ -88,13 +93,9 @@ exports.login = (req, res) => {
         }
     })
     .then((user) => {
-        if(!user){
+        if(!user || !user.validPassword(password)){
             // checks for invalid username
-            res.send({message: "Invalid Username"})
-        }else if(!user.validPassword(password)) {
-            // checks for invalid password 
-            return res.status(401).send({
-              message: "Invalid Password"})
+            res.status(401).send({message: "Invalid Username / Password combination."})
         }else{
             // Token created using 'sign' method of jwt.
             // 'testing' used a salt 

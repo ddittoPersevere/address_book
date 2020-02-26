@@ -27,19 +27,14 @@ class Login extends React.Component {
                         <label htmlFor="username">Username</label><br/>
                         <input type="text" id="username"/><br/>
                         <label htmlFor="password">Password</label><br/>
-                        <input type="password" id="password"/><br/>
+                        <input type="password" id="password"/><br/> <br/>
+                        <button className="btn bg-secondary text-light">Submit</button>
+                        <br/> <br/>
                         {
                             // if error is found, displays error
-                            this.props.creds.error ? 
-                            <div>
-                                <br/>
-                                    <p id="error">{this.props.creds.error}</p>
-                                <br/>
-                            </div>
-                            :
-                            <br/>
+                            this.props.creds.error &&
+                            <p id="error" className="p-0 m-0">{this.props.creds.error}</p>
                         }
-                        <button className="btn bg-secondary text-light">Submit</button>
                     </form>
                 </div>
             </main>

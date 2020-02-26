@@ -24,10 +24,10 @@ const validate = async(req, res, next) => {
             let errors = []
             for(let i in users){
                 if(users[i].dataValues.username === req.body.username){
-                    errors.push('username taken')
+                    errors.push('Username already in use.')
                 }
                 if(users[i].dataValues.email === req.body.email){
-                    errors.push('email taken')
+                    errors.push('Email already in use')
                 }
             }
             throw errors
